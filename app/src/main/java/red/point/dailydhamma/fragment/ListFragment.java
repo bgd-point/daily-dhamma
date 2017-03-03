@@ -8,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,7 +52,9 @@ public class ListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String query) {
-                adapter.getFilter().filter(query);
+                if(adapter != null) {
+                    adapter.getFilter().filter(query);
+                }
                 return true;
             }
         });
@@ -90,8 +91,11 @@ public class ListFragment extends Fragment {
                     arrayListQA.add(questionAnswer);
                 }
 
-                adapter = new QuestionAnswerAdapter(getContext(),arrayListQA);
-                recycleView.setAdapter(adapter);
+                if(arrayListQA != null) {
+                    adapter = new QuestionAnswerAdapter(getContext(),arrayListQA);
+                    recycleView.setAdapter(adapter);
+                }
+
             }
 
             @Override

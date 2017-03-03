@@ -5,6 +5,5 @@
         android:title="Share"
         app:showAsAction="always"
         app:iconifiedByDefault="false"
-        android:showAsAction="ifRoom"
         app:actionProviderClass= "android.support.v7.widget.ShareActionProvider" />
 </menu>
