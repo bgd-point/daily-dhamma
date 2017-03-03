@@ -9,10 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
+import red.point.dailydhamma.fragment.DailyFragment;
+import red.point.dailydhamma.fragment.FavoriteFragment;
+import red.point.dailydhamma.fragment.ListFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyActivity";
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new FavoriteFragment();
                         break;
                 }
+
                 final FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
                 return true;

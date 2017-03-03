@@ -1,9 +1,10 @@
-package red.point.dailydhamma;
+package red.point.dailydhamma.model;
 
 public class QuestionAnswer {
     private String title;
     private String question;
     private String answer;
+    private String key;
 
     public QuestionAnswer() {}
 
@@ -35,5 +36,13 @@ public class QuestionAnswer {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

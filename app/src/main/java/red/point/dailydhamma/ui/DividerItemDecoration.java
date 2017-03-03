@@ -1,4 +1,4 @@
-package red.point.dailydhamma;
+package red.point.dailydhamma.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -60,7 +60,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
             // and finally draw the separator
             if (position < state.getItemCount()) {
-                c.drawLine(0, view.getBottom() - 24, view.getWidth() + view.getLeft() + view.getRight(), view.getBottom() - 24, mPaint);
+                c.drawLine(0, view.getBottom(), 2000, view.getBottom(), mPaint);
             }
         }
     }
