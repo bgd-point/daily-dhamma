@@ -1,4 +1,4 @@
-package red.point.dailydhamma;
+package red.point.dailydhamma.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import java.util.ArrayList;
 
+import red.point.dailydhamma.R;
 import red.point.dailydhamma.fragment.SingleFragment;
-import red.point.dailydhamma.holder.QuestionAnswerHolder;
+import red.point.dailydhamma.adapter.holder.QuestionAnswerHolder;
 import red.point.dailydhamma.model.QuestionAnswer;
 
 public class QuestionAnswerAdapter extends RecyclerView.Adapter<QuestionAnswerHolder> implements Filterable {

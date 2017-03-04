@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyActivity";
     private BottomNavigationView bottomNavigation;
     private Fragment fragment;
-    private FragmentManager fragmentManager;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+    public FragmentTransaction transaction;
+    public FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Bottom navigation listener
-        fragmentManager = getSupportFragmentManager();
-
         bottomNavigation = (BottomNavigationView)findViewById(R.id.bottom_navigation);
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation);
@@ -51,15 +51,15 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
                 return true;
             }
         });
 
-        // Firebase instance variables
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference questionAnswerRef = database.getReference("question-answer");
+
+        // The Firebase Realtime Database synchronizes and stores a local copy of the data for active listeners
         questionAnswerRef.keepSynced(true);
 
         // Save device token
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference devicesRef = database.getReference("devices/token/" + token);
         devicesRef.setValue(true);
 
-        final FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, new DailyFragment()).commit();
     }
 }

@@ -1,4 +1,4 @@
-package red.point.dailydhamma;
+package red.point.dailydhamma.adapter;
 
 import android.widget.Filter;
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
-package red.point.dailydhamma.holder;
+package red.point.dailydhamma.adapter.holder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import red.point.dailydhamma.ItemClickListener;
+import red.point.dailydhamma.adapter.ItemClickListener;
 import red.point.dailydhamma.R;
 
 public  class QuestionAnswerHolder extends RecyclerView.ViewHolder {

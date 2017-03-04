@@ -23,10 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import red.point.dailydhamma.QuestionAnswerAdapter;
+import red.point.dailydhamma.adapter.QuestionAnswerAdapter;
 import red.point.dailydhamma.ui.DividerItemDecoration;
 import red.point.dailydhamma.model.QuestionAnswer;
-import red.point.dailydhamma.holder.QuestionAnswerHolder;
+import red.point.dailydhamma.adapter.holder.QuestionAnswerHolder;
 import red.point.dailydhamma.R;
 
 public class ListFragment extends Fragment {
