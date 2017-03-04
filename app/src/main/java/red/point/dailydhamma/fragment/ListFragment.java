@@ -75,7 +75,7 @@ public class ListFragment extends Fragment {
         recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycleView.setItemAnimator(new DefaultItemAnimator());
 
-        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), Color.GRAY, 1.0f);
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), Color.LTGRAY, 1.0f);
         recycleView.addItemDecoration(decoration);
 
         ValueEventListener postListener = new ValueEventListener() {
