@@ -20,9 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
-
 import red.point.dailydhamma.adapter.QuestionAnswerAdapter;
 import red.point.dailydhamma.ui.DividerItemDecoration;
 import red.point.dailydhamma.model.QuestionAnswer;

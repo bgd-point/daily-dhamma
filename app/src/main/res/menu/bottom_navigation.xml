@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_daily"
-        android:title="Daily Dhamma"
-        app:showAsAction="ifRoom"
+        android:title="Daily"
+        app:showAsAction="always"
         android:enabled="true"
         android:icon="@drawable/ic_insert_emoticon_black_24dp" />
     <item android:id="@+id/action_list"
-        android:title="List Dhamma"
-        app:showAsAction="ifRoom"
+        android:title="List"
+        app:showAsAction="always"
         android:enabled="true"
-        android:icon="@drawable/ic_menu_black_24dp" />
-    <item android:id="@+id/action_favorite"
-        android:title="Favorite"
-        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_book_black_24dp" />
+    <item android:id="@+id/action_random"
+        android:title="Random"
+        app:showAsAction="always"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite_black_24dp" />
+        android:icon="@drawable/ic_refresh_black_24dp" />
 </menu>

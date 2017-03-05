@@ -3,8 +3,9 @@
     <color name="colorPrimary">#303030</color>
     <color name="colorPrimaryLogo">#003C54</color>
     <color name="colorSecondaryLogo">#81AC05</color>
-    <color name="colorLightGray">#F5F5F5</color>
+    <color name="colorLightGray">#EDEDED</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
 </resources>
