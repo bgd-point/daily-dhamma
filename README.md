@@ -17,7 +17,8 @@ Thank you for considering contributing
 5. Submit a pull request :D
 
 ## License
-Daily Dhamma is open-sourced software licensed under the [MIT License](http://opensource.org/licenses/MIT)
+Daily Dhamma is open-sourced software licensed under the [GNU General Public License v 3.0
+](https://github.com/martiendt/daily-dhamma/blob/master/LICENSE)
 
 ## Published App
 Download published app from this repository on Google Play
