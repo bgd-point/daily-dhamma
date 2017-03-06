@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
             }
 
+            fragmentManager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.main_container, fragment).commit();
             return true;
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_main);
         drawer.closeDrawer(GravityCompat.START);
 
+        fragmentManager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, fragment).commit();
         return true;
