@@ -1,4 +1,6 @@
 # Daily Dhamma
+
+[![Join the chat at https://gitter.im/daily-dhamma/Lobby](https://badges.gitter.im/daily-dhamma/Lobby.svg)](https://gitter.im/daily-dhamma/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Daily Dhamma is an application that provides a question and answer content provided publicly by various religious leaders, especially Theravada Buddhism.
 
 ## Installation
