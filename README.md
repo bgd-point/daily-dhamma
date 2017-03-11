@@ -25,6 +25,8 @@ Daily Dhamma is open-sourced software licensed under the [GNU General Public Lic
 ## Published App
 Download published app from this repository on Google Play
 
+![](http://res.cloudinary.com/martiendt/image/upload/c_scale,h_540/v1489190348/Screen_Shot_2017-03-11_at_6.44.37_AM_dijdaq.png)
+
 <a href='https://play.google.com/store/apps/details?id=red.point.dailydhamma&hl=en&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
 <img width="125px" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/>
 </a>
