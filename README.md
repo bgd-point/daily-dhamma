@@ -17,6 +17,7 @@ Thank you for considering contributing, you can do the following :
 - give feedback and feature request
 - find bug and compability issue
 - improve documentation to help other user
+- and also fix grammar :)
 
 ## License
 Daily Dhamma is open-sourced software licensed under the [GNU General Public License v 3.0
