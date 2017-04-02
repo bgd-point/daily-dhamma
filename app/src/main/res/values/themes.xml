@@ -1,6 +1,6 @@
 <resources>
     <style name="FontSizeSmall">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
     <style name="FontSizeMedium">
         <item name="android:textSize">16sp</item>

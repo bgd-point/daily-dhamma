@@ -1,5 +1,6 @@
 package red.point.dailydhamma;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,20 +12,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
-
 import red.point.dailydhamma.fragment.AboutFragment;
 import red.point.dailydhamma.fragment.DailyFragment;
 import red.point.dailydhamma.fragment.ListFragment;
 import red.point.dailydhamma.fragment.RandomFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MyActivity";
     private BottomNavigationView bottomNavigation;
     private Fragment fragment;
@@ -64,24 +63,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            int id = item.getItemId();
+                int id = item.getItemId();
 
-            switch (id){
-                case R.id.action_daily:
-                    fragment = new DailyFragment();
-                    break;
-                case R.id.action_list:
-                    fragment = new ListFragment();
-                    break;
-                case R.id.action_random:
-                    fragment = new RandomFragment();
-                    break;
-            }
+                switch (id){
+                    case R.id.action_daily:
+                        fragment = new DailyFragment();
+                        break;
+                    case R.id.action_list:
+                        fragment = new ListFragment();
+                        break;
+                    case R.id.action_random:
+                        fragment = new RandomFragment();
+                        break;
+                }
 
-            fragmentManager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.main_container, fragment).commit();
-            return true;
+                fragmentManager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container, fragment).commit();
+                return true;
             }
         });
 
@@ -119,6 +118,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_about:
                 fragment = new AboutFragment();
                 break;
+
+            case R.id.nav_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                finish();
+                startActivity(intent);
+                return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_main);
