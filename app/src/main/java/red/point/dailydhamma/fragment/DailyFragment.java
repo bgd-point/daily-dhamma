@@ -1,5 +1,6 @@
 package red.point.dailydhamma.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +30,8 @@ public class DailyFragment extends Fragment {
 
     ShareActionProvider mShareActionProvider;
     String shareText;
+    ProgressDialog loading = null;
+    int count = 0;
 
     public DailyFragment() {}
 
@@ -54,6 +58,11 @@ public class DailyFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        loading = new ProgressDialog(getContext());
+        loading.setCancelable(false);
+        loading.setMessage("Loading");
+        loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         // Firebase instance variables
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference questionAnswerRef = database.getReference("dhamma-today");
@@ -67,32 +76,30 @@ public class DailyFragment extends Fragment {
         questionAnswerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if(getView() != null) {
+                    QuestionAnswer data = dataSnapshot.getValue(QuestionAnswer.class);
+                    HtmlTextView questionAnswer = (HtmlTextView) getView().findViewById(R.id.questionAnswer);
+                    String date = new SimpleDateFormat("dd MMM yyyy").format(new Date());
+                    questionAnswer.setHtml("<center'>" + date + "</center>"
+                        + "\n <h1>Question</h1> \n"
+                        + data.getQuestion()
+                        + "\n"
+                        + "<h1>Answer</h1>"
+                        + "\n"
+                        + data.getAnswer());
 
-                    if(getView() != null) {
-                        QuestionAnswer data = dataSnapshot.getValue(QuestionAnswer.class);
-                        HtmlTextView questionAnswer = (HtmlTextView) getView().findViewById(R.id.questionAnswer);
-                        String date = new SimpleDateFormat("dd MMM yyyy").format(new Date());
-                        questionAnswer.setHtml("<center'>" + date + "</center>"
-                                + "\n <h1>Question</h1> \n"
-                                + data.getQuestion()
-                                + "\n"
-                                + "<h1>Answer</h1>"
-                                + "\n"
-                                + data.getAnswer());
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareText = questionAnswer.getText().toString();
+                    shareText = shareText + "\n\n check this app to see more dhamma \n\n";
+                    shareText = shareText + "https://play.google.com/store/apps/details?id=red.point.dailydhamma \n\n";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                    shareIntent.setType("text/plain");
+                    if(shareIntent != null && mShareActionProvider != null) {
+                        mShareActionProvider.setShareIntent(shareIntent);
+                    }
 
-                        Intent shareIntent = new Intent();
-                        shareIntent.setAction(Intent.ACTION_SEND);
-                        shareText = questionAnswer.getText().toString();
-                        shareText = shareText + "\n\n check this app to see more dhamma \n\n";
-                        shareText = shareText + "https://play.google.com/store/apps/details?id=red.point.dailydhamma \n\n";
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
-                        shareIntent.setType("text/plain");
-                        if(shareIntent != null && mShareActionProvider != null) {
-                            mShareActionProvider.setShareIntent(shareIntent);
-                        }
-
-                        questionAnswer.setMovementMethod(LinkMovementMethod.getInstance());
-
+                    questionAnswer.setMovementMethod(LinkMovementMethod.getInstance());
                 }
             }
 
@@ -102,6 +109,32 @@ public class DailyFragment extends Fragment {
             }
         });
 
+
+        questionAnswerRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousKey) {
+                count++;
+
+                if (count >= dataSnapshot.getChildrenCount()){
+                    loading.dismiss();
+                }
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        loading.show();
         return view;
     }
 }
