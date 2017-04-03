@@ -94,17 +94,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // Save device token
         String token = FirebaseInstanceId.getInstance().getToken();
-        final DatabaseReference devicesRef = database.getReference("devices/token/");
-        devicesRef.child(token).addListenerForSingleValueEvent(new ValueEventListener(){
+        final DatabaseReference devicesRef = database.getReference("devices/token/" + token);
+
+        devicesRef.addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
 
                 } else {
                     String token = FirebaseInstanceId.getInstance().getToken();
-                    devicesRef.child(token).child("font_size").setValue("Small");
-                    devicesRef.child(token).child("notification_enable").setValue(true);
-                    devicesRef.child(token).child("notification_time").setValue("06:00");
+                    devicesRef.child("font_size").setValue("Small");
+                    devicesRef.child("notification_enable").setValue(true);
+                    devicesRef.child("notification_time").setValue("06:00");
                 }
             }
 
