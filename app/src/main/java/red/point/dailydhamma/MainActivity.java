@@ -15,8 +15,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import red.point.dailydhamma.fragment.AboutFragment;
 import red.point.dailydhamma.fragment.DailyFragment;
@@ -91,9 +94,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // Save device token
         String token = FirebaseInstanceId.getInstance().getToken();
-        DatabaseReference devicesRef = database.getReference("devices/token/" + token);
-        devicesRef.child("notification_enable").setValue(true);
-        devicesRef.child("notification_time").setValue("06:00");
+        final DatabaseReference devicesRef = database.getReference("devices/token/");
+        devicesRef.child(token).addListenerForSingleValueEvent(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                } else {
+                    String token = FirebaseInstanceId.getInstance().getToken();
+                    devicesRef.child(token).child("font_size").setValue("Small");
+                    devicesRef.child(token).child("notification_enable").setValue(true);
+                    devicesRef.child(token).child("notification_time").setValue("06:00");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, new DailyFragment()).commit();
