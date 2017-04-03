@@ -68,11 +68,6 @@ public class DailyFragment extends Fragment {
         DatabaseReference questionAnswerRef = database.getReference("dhamma-today");
         questionAnswerRef.keepSynced(true);
 
-        // Save device token
-        String token = FirebaseInstanceId.getInstance().getToken();
-        DatabaseReference devicesRef = database.getReference("devices/token/" + token);
-        devicesRef.setValue(true);
-
         questionAnswerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

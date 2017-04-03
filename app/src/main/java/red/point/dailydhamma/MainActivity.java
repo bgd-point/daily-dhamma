@@ -92,7 +92,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Save device token
         String token = FirebaseInstanceId.getInstance().getToken();
         DatabaseReference devicesRef = database.getReference("devices/token/" + token);
-        devicesRef.setValue(true);
+        devicesRef.child("notification_enable").setValue(true);
+        devicesRef.child("notification_time").setValue("06:00");
 
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, new DailyFragment()).commit();

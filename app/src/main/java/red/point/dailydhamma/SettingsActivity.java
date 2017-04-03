@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.List;
 
 /**
@@ -29,6 +32,9 @@ import java.util.List;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
+    public static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public static String token = FirebaseInstanceId.getInstance().getToken();
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -37,13 +43,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
+            SharedPreferences settings = preference.getSharedPreferences();
+            SharedPreferences.Editor editor = settings.edit();
 
             // Update shared preferences for updated font size
             if (preference.getKey().toString().equals("font_size_list")) {
-                SharedPreferences settings = preference.getSharedPreferences();
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putString("FONT_SIZE", stringValue);
                 editor.commit();
+
+                database.getReference("devices/token/" + token + "/font_size").setValue(stringValue);
+            }
+
+            // Update shared preferences for updated notification time
+            if (preference.getKey().toString().equals("notification_time_list")) {
+                editor.putString("NOTIFICATION_TIME", stringValue);
+                editor.commit();
+
+                database.getReference("devices/token/" + token + "/notification_time").setValue(stringValue);
             }
 
             if (preference instanceof ListPreference) {
@@ -189,6 +205,31 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
+
+            SwitchPreference notificationEnable = (SwitchPreference) findPreference("notification_enable");
+            if (notificationEnable != null){
+                notificationEnable.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+                    @Override
+                    public boolean onPreferenceChange(Preference preference,
+                                                      Object newValue) {
+
+                        // Update shared preferences for updated font size
+                        SharedPreferences settings = preference.getSharedPreferences();
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("NOTIFICATION_ENABLE", newValue.toString());
+                        editor.commit();
+
+                        if (newValue.toString().equals("false")) {
+                            database.getReference("devices/token/" + token + "/notification_time").setValue("");
+                        } else {
+                            String notification_time_list = settings.getString("notification_time_list", "06:00");
+                            database.getReference("devices/token/" + token + "/notification_time").setValue(notification_time_list);
+                        }
+
+                        return true;
+                    }
+                });
+            }
 
             // Bind the summaries of preferences to their values
             // When their values change, their summaries are
