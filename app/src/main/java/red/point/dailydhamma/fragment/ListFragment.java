@@ -33,6 +33,7 @@ public class ListFragment extends Fragment {
 
     protected SearchView searchView;
     protected QuestionAnswerAdapter adapter;
+    private long listNumber = 1;
 
     public ListFragment() {}
 
@@ -65,7 +66,7 @@ public class ListFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        DatabaseReference listRef = FirebaseDatabase.getInstance().getReference("question-answer");
+        final DatabaseReference listRef = FirebaseDatabase.getInstance().getReference("question-answer");
         listRef.keepSynced(true);
 
         final RecyclerView recycleView = (RecyclerView) view.findViewById(R.id.listQuestionAnswer);
@@ -84,7 +85,9 @@ public class ListFragment extends Fragment {
                     QuestionAnswer questionAnswer = child.getValue(QuestionAnswer.class);
 
                     questionAnswer.setKey(child.getRef().getKey());
-                    questionAnswer.setTitle(questionAnswer.getTitle());
+                    questionAnswer.setTitle(listNumber + ". " + questionAnswer.getTitle());
+
+                    listNumber += 1;
 
                     arrayListQA.add(questionAnswer);
                 }
