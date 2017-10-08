@@ -35,9 +35,7 @@ public class QuestionAnswerAdapter extends RecyclerView.Adapter<QuestionAnswerHo
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_view, null);
 
-        QuestionAnswerHolder holder=new QuestionAnswerHolder(v);
-
-        return holder;
+        return new QuestionAnswerHolder(v);
     }
 
     // DATA BOUND TO VIEWS

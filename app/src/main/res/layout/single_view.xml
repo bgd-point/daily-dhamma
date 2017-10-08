@@ -13,12 +13,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="64dp"
+            android:contentDescription="Daily Dhamma"
             android:layout_alignParentTop="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
+            android:text="@string/title"
             android:id="@+id/title"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/imgIcon"

@@ -83,7 +83,7 @@ public class ListFragment extends Fragment {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     QuestionAnswer questionAnswer = child.getValue(QuestionAnswer.class);
 
-                    questionAnswer.setKey(child.getRef().getKey().toString());
+                    questionAnswer.setKey(child.getRef().getKey());
                     questionAnswer.setTitle(questionAnswer.getTitle());
 
                     arrayListQA.add(questionAnswer);

@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             SharedPreferences.Editor editor = settings.edit();
 
             // Update shared preferences for updated font size
-            if (preference.getKey().toString().equals("font_size_list")) {
+            if (preference.getKey().equals("font_size_list")) {
                 editor.putString("FONT_SIZE", stringValue);
                 editor.commit();
 
@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
 
             // Update shared preferences for updated notification time
-            if (preference.getKey().toString().equals("notification_time_list")) {
+            if (preference.getKey().equals("notification_time_list")) {
                 editor.putString("NOTIFICATION_TIME", stringValue);
                 editor.commit();
 
