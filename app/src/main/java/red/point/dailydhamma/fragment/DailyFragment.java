@@ -111,7 +111,11 @@ public class DailyFragment extends Fragment {
                 count++;
 
                 if (count >= dataSnapshot.getChildrenCount()){
-                    loading.dismiss();
+                    if (loading != null) {
+                        if (loading.isShowing()) {
+                            loading.dismiss();
+                        }
+                    }
                 }
             }
             @Override
