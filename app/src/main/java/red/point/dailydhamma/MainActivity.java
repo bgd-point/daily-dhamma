@@ -28,7 +28,6 @@ import red.point.dailydhamma.fragment.RandomFragment;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MyActivity";
-    private BottomNavigationView bottomNavigation;
     private Fragment fragment;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     public FragmentTransaction transaction;
@@ -60,7 +59,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.requestLayout();
 
         // Bottom navigation listener
-        bottomNavigation = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="64dp"
-            android:contentDescription="Daily Dhamma"
+            android:contentDescription="@string/daily_dhamma"
             android:layout_alignParentTop="true" />
 
         <TextView
