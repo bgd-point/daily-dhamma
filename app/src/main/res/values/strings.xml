@@ -24,6 +24,20 @@
         <item>Large</item>
     </string-array>
 
+    <!-- Settings for Language -->
+    <string name="pref_header_language">Language</string>
+    <string name="pref_default_language">Indonesian</string>
+    <string name="pref_default_language_en">English</string>
+    <string name="pref_title_language">Language</string>
+    <string-array name="pref_language_list_titles">
+        <item>Indonesian</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="pref_language_list_values">
+        <item>Indonesian</item>
+        <item>English</item>
+    </string-array>
+
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
 

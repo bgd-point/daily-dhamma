@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+
+import red.point.dailydhamma.Utils.MPreferenceManager;
 import red.point.dailydhamma.adapter.QuestionAnswerAdapter;
 import red.point.dailydhamma.ui.DividerItemDecoration;
 import red.point.dailydhamma.model.QuestionAnswer;
@@ -66,7 +68,14 @@ public class ListFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        final DatabaseReference listRef = FirebaseDatabase.getInstance().getReference("question-answer");
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference listRef = (MPreferenceManager.readBoolInformation(getContext(), MPreferenceManager.DEFAULT_LANG)?
+                database.getReference("question-answer") : database.getReference("question-answer-en"));
+
+        if (listRef == null) {
+            listRef = database.getReference("question-answer");
+        }
+
         listRef.keepSynced(true);
 
         final RecyclerView recycleView = (RecyclerView) view.findViewById(R.id.listQuestionAnswer);
@@ -76,7 +85,7 @@ public class ListFragment extends Fragment {
 
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), Color.LTGRAY, 1.0f);
         recycleView.addItemDecoration(decoration);
-
+        listNumber = 1;
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

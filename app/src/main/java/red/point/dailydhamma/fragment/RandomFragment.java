@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 import java.util.Random;
 import red.point.dailydhamma.R;
+import red.point.dailydhamma.Utils.MPreferenceManager;
 
 public class RandomFragment extends Fragment {
 
@@ -53,7 +54,13 @@ public class RandomFragment extends Fragment {
 
         // Firebase instance variables
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference questionAnswerRef = database.getReference("question-answer");
+        DatabaseReference questionAnswerRef = (MPreferenceManager.readBoolInformation(getContext(), MPreferenceManager.DEFAULT_LANG)?
+                database.getReference("question-answer"): database.getReference("question-answer-en"));
+
+        if (questionAnswerRef == null) {
+            questionAnswerRef = database.getReference("question-answer");
+        }
+
         questionAnswerRef.keepSynced(true);
 
         questionAnswerRef.addValueEventListener(new ValueEventListener() {

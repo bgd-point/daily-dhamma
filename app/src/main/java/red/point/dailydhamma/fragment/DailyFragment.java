@@ -23,6 +23,7 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import red.point.dailydhamma.R;
+import red.point.dailydhamma.Utils.MPreferenceManager;
 import red.point.dailydhamma.model.QuestionAnswer;
 
 public class DailyFragment extends Fragment {
@@ -64,7 +65,13 @@ public class DailyFragment extends Fragment {
 
         // Firebase instance variables
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference questionAnswerRef = database.getReference("dhamma-today");
+        DatabaseReference questionAnswerRef = (MPreferenceManager.readBoolInformation(getContext(), MPreferenceManager.DEFAULT_LANG)?
+                database.getReference("dhamma-today") : database.getReference("dhamma-today-en"));
+
+        if (questionAnswerRef == null) {
+            questionAnswerRef = database.getReference("dhamma-today");
+        }
+
         questionAnswerRef.keepSynced(true);
 
         questionAnswerRef.addValueEventListener(new ValueEventListener() {
@@ -72,28 +79,29 @@ public class DailyFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(getView() != null) {
                     QuestionAnswer data = dataSnapshot.getValue(QuestionAnswer.class);
-                    HtmlTextView questionAnswer = (HtmlTextView) getView().findViewById(R.id.questionAnswer);
-                    String date = new SimpleDateFormat("dd MMM yyyy").format(new Date());
-                    questionAnswer.setHtml("<center'>" + date + "</center>"
-                        + "\n <h1>Question</h1> \n"
-                        + data.getQuestion()
-                        + "\n"
-                        + "<h1>Answer</h1>"
-                        + "\n"
-                        + data.getAnswer());
+                    if (data != null) {
+                        HtmlTextView questionAnswer = (HtmlTextView) getView().findViewById(R.id.questionAnswer);
+                        String date = new SimpleDateFormat("dd MMM yyyy").format(new Date());
+                        questionAnswer.setHtml("<center'>" + date + "</center>"
+                            + "\n <h1>Question</h1> \n"
+                            + data.getQuestion()
+                            + "\n"
+                            + "<h1>Answer</h1>"
+                            + "\n"
+                            + data.getAnswer());
 
-                    Intent shareIntent = new Intent();
-                    shareIntent.setAction(Intent.ACTION_SEND);
-                    shareText = questionAnswer.getText().toString();
-                    shareText = shareText + "\n\n check this app to see more dhamma \n\n";
-                    shareText = shareText + "https://play.google.com/store/apps/details?id=red.point.dailydhamma \n\n";
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
-                    shareIntent.setType("text/plain");
-                    if(shareIntent != null && mShareActionProvider != null) {
-                        mShareActionProvider.setShareIntent(shareIntent);
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareText = questionAnswer.getText().toString();
+                        shareText = shareText + "\n\n check this app to see more dhamma \n\n";
+                        shareText = shareText + "https://play.google.com/store/apps/details?id=red.point.dailydhamma \n\n";
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                        shareIntent.setType("text/plain");
+                        if(shareIntent != null && mShareActionProvider != null) {
+                            mShareActionProvider.setShareIntent(shareIntent);
+                        }
+                        questionAnswer.setMovementMethod(LinkMovementMethod.getInstance());
                     }
-
-                    questionAnswer.setMovementMethod(LinkMovementMethod.getInstance());
                 }
             }
 

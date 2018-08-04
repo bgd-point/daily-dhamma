@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
+
+import red.point.dailydhamma.Utils.MPreferenceManager;
 import red.point.dailydhamma.model.QuestionAnswer;
 import red.point.dailydhamma.R;
 
@@ -55,7 +57,13 @@ public class SingleFragment extends Fragment {
 
         // Firebase instance variables
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference singleQuestionAnswerRef = database.getReference("question-answer/" + key);
+        DatabaseReference singleQuestionAnswerRef = (MPreferenceManager.readBoolInformation(getContext(), MPreferenceManager.DEFAULT_LANG)?
+                database.getReference("question-answer/" + key) : database.getReference("question-answer-en/" + key));
+
+        if (singleQuestionAnswerRef == null) {
+            singleQuestionAnswerRef = database.getReference("question-answer/" + key);
+        }
+
         singleQuestionAnswerRef.keepSynced(true);
 
         singleQuestionAnswerRef.addValueEventListener(new ValueEventListener() {
