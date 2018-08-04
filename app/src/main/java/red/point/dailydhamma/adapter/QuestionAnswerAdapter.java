@@ -45,7 +45,7 @@ public class QuestionAnswerAdapter extends RecyclerView.Adapter<QuestionAnswerHo
         // BIND DATA
         holder.title.setText(questionAnswerList.get(position).getTitle());
 
-        // IMPLEMENT CLICK LISTENET
+        // IMPLEMENT CLICK LISTENER
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {

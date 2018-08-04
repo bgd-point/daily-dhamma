@@ -27,7 +27,7 @@ import red.point.dailydhamma.fragment.ListFragment;
 import red.point.dailydhamma.fragment.RandomFragment;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = "MyActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
     private Fragment fragment;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     public FragmentTransaction transaction;
@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_main);
         drawer.closeDrawer(GravityCompat.START);
 
-        fragmentManager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, fragment).commit();
         return true;
