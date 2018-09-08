@@ -16,7 +16,7 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
 
-        HtmlTextView aboutText = (HtmlTextView) view.findViewById(R.id.aboutText);
+        HtmlTextView aboutText = view.findViewById(R.id.aboutText);
         aboutText.setHtml("<h1>About</h1>"
             + "<p>Daily Dhamma adalah aplikasi yang menyediakan konten tanya jawab yang tersedia secara publik oleh berbagai pemuka agama khususnya agama Buddha Theravada.</p>"
             + "<p>Berbagai macam cakupan tanya jawab dan diskusi tersedia; baik untuk masalah kehidupan sehari hari maupun pertanyaan mengenai Dhamma.</p>"

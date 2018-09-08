@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.List;
 
+import red.point.dailydhamma.Utils.MPreferenceManager;
+
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
  * handset devices, settings are presented as a single list. On tablets,
@@ -60,6 +62,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 editor.commit();
 
                 database.getReference("devices/token/" + token + "/notification_time").setValue(stringValue);
+            }
+
+            // Update shared preferences for updated language
+            if (preference.getKey().equals("language_list")) {
+                editor.putString("LANGUAGE_LIST", stringValue);
+                editor.commit();
+
+                database.getReference("devices/token/" + token + "/language")
+                        .setValue(stringValue.equals("Indonesian")? "id": "en");
             }
 
             if (preference instanceof ListPreference) {

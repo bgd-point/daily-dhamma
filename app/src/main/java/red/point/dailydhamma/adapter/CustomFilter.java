@@ -11,20 +11,19 @@ public class CustomFilter extends Filter{
     ArrayList<QuestionAnswer> filterList;
 
 
-    public CustomFilter(ArrayList<QuestionAnswer> filterList,QuestionAnswerAdapter adapter)
+    CustomFilter(ArrayList<QuestionAnswer> filterList, QuestionAnswerAdapter adapter)
     {
         this.adapter = adapter;
         this.filterList = filterList;
-
     }
 
-    // FILTERING OCURS
+    // FILTERING
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
         FilterResults results=new FilterResults();
 
         // CHECK CONSTRAINT VALIDITY
-        if(constraint != null && constraint.length() > 0)
+        if (constraint != null && constraint.length() > 0)
         {
             // CHANGE TO UPPER
             constraint = constraint.toString().toUpperCase();
@@ -55,7 +54,7 @@ public class CustomFilter extends Filter{
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
 
-        adapter.questionAnswerList= (ArrayList<QuestionAnswer>) results.values;
+        adapter.questionAnswerList = (ArrayList<QuestionAnswer>) results.values;
 
         //REFRESH
         adapter.notifyDataSetChanged();

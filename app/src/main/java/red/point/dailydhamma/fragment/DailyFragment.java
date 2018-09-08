@@ -79,29 +79,28 @@ public class DailyFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(getView() != null) {
                     QuestionAnswer data = dataSnapshot.getValue(QuestionAnswer.class);
-                    if (data != null) {
-                        HtmlTextView questionAnswer = (HtmlTextView) getView().findViewById(R.id.questionAnswer);
-                        String date = new SimpleDateFormat("dd MMM yyyy").format(new Date());
-                        questionAnswer.setHtml("<center'>" + date + "</center>"
-                            + "\n <h1>Question</h1> \n"
-                            + data.getQuestion()
-                            + "\n"
-                            + "<h1>Answer</h1>"
-                            + "\n"
-                            + data.getAnswer());
+                    HtmlTextView questionAnswer = getView().findViewById(R.id.questionAnswer);
+                    String date = new SimpleDateFormat("dd MMM yyyy").format(new Date());
+                    questionAnswer.setHtml("<center'>" + date + "</center>"
+                        + "\n <h1>Question</h1> \n"
+                        + data.getQuestion()
+                        + "\n"
+                        + "<h1>Answer</h1>"
+                        + "\n"
+                        + data.getAnswer());
 
-                        Intent shareIntent = new Intent();
-                        shareIntent.setAction(Intent.ACTION_SEND);
-                        shareText = questionAnswer.getText().toString();
-                        shareText = shareText + "\n\n check this app to see more dhamma \n\n";
-                        shareText = shareText + "https://play.google.com/store/apps/details?id=red.point.dailydhamma \n\n";
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
-                        shareIntent.setType("text/plain");
-                        if(shareIntent != null && mShareActionProvider != null) {
-                            mShareActionProvider.setShareIntent(shareIntent);
-                        }
-                        questionAnswer.setMovementMethod(LinkMovementMethod.getInstance());
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareText = questionAnswer.getText().toString();
+                    shareText = shareText + "\n\n check this app to see more dhamma \n\n";
+                    shareText = shareText + "https://play.google.com/store/apps/details?id=red.point.dailydhamma \n\n";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                    shareIntent.setType("text/plain");
+                    if(shareIntent != null && mShareActionProvider != null) {
+                        mShareActionProvider.setShareIntent(shareIntent);
                     }
+
+                    questionAnswer.setMovementMethod(LinkMovementMethod.getInstance());
                 }
             }
 

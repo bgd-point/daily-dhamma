@@ -57,8 +57,9 @@ public class SingleFragment extends Fragment {
 
         // Firebase instance variables
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference singleQuestionAnswerRef = (MPreferenceManager.readBoolInformation(getContext(), MPreferenceManager.DEFAULT_LANG)?
-                database.getReference("question-answer/" + key) : database.getReference("question-answer-en/" + key));
+        DatabaseReference singleQuestionAnswerRef = (MPreferenceManager.readBoolInformation(getContext(), MPreferenceManager.DEFAULT_LANG)
+                ? database.getReference("question-answer/" + key)
+                : database.getReference("question-answer-en/" + key));
 
         if (singleQuestionAnswerRef == null) {
             singleQuestionAnswerRef = database.getReference("question-answer/" + key);
@@ -71,7 +72,7 @@ public class SingleFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(getView() != null) {
                     QuestionAnswer data = dataSnapshot.getValue(QuestionAnswer.class);
-                    HtmlTextView questionAnswer = (HtmlTextView) getView().findViewById(R.id.questionAnswer);
+                    HtmlTextView questionAnswer = getView().findViewById(R.id.questionAnswer);
                     questionAnswer.setHtml("<h1>Question</h1> \n"
                             + data.getQuestion()
                             + "\n"

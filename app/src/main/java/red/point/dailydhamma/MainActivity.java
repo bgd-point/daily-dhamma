@@ -44,22 +44,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_main);
+        DrawerLayout drawer = findViewById(R.id.activity_main);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         navigationView.requestLayout();
 
         // Bottom navigation listener
-        BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -99,12 +99,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-
-                } else {
-                    String token = FirebaseInstanceId.getInstance().getToken();
+                    if (!dataSnapshot.hasChild("language")) {
+                        devicesRef.child("language").setValue(Lang_Indonesian? "id": "en");
+                    }
+                }
+                else {
                     devicesRef.child("font_size").setValue("Small");
                     devicesRef.child("notification_enable").setValue(true);
                     devicesRef.child("notification_time").setValue("06:00");
+                    devicesRef.child("language").setValue(Lang_Indonesian? "id": "en");
                 }
             }
 
@@ -120,7 +123,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_main);
+        DrawerLayout drawer = findViewById(R.id.activity_main);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -146,7 +149,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return true;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_main);
+        DrawerLayout drawer = findViewById(R.id.activity_main);
         drawer.closeDrawer(GravityCompat.START);
 
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);

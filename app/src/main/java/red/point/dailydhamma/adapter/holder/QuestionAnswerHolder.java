@@ -15,7 +15,7 @@ public  class QuestionAnswerHolder extends RecyclerView.ViewHolder {
     public QuestionAnswerHolder(View itemView) {
         super(itemView);
 
-        this.title = (TextView) itemView.findViewById(R.id.title);
+        this.title = itemView.findViewById(R.id.title);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

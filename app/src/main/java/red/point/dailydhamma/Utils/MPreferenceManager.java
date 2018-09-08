@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 public class MPreferenceManager {
 
     public static final String DEFAULT_LANG = "default_lang";
+    public static final String IS_REOPEN = "is_reopen"; // false: first run,  true: rerun
 
 
     public static void saveStringInformation(Context context, String key, String value){

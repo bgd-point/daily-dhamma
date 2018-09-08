@@ -72,7 +72,7 @@ public class RandomFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     if (count == index) {
                         if(getView() != null) {
-                            HtmlTextView questionAnswer = (HtmlTextView) getView().findViewById(R.id.questionAnswer);
+                            HtmlTextView questionAnswer = getView().findViewById(R.id.questionAnswer);
                             questionAnswer.setHtml("<h1>Question</h1> \n"
                                     + snapshot.child("question").getValue().toString()
                                     + "\n"

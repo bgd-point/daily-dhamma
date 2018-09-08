@@ -69,8 +69,9 @@ public class ListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference listRef = (MPreferenceManager.readBoolInformation(getContext(), MPreferenceManager.DEFAULT_LANG)?
-                database.getReference("question-answer") : database.getReference("question-answer-en"));
+        DatabaseReference listRef = (MPreferenceManager.readBoolInformation(getContext(), MPreferenceManager.DEFAULT_LANG)
+                ? database.getReference("question-answer")
+                : database.getReference("question-answer-en"));
 
         if (listRef == null) {
             listRef = database.getReference("question-answer");
@@ -78,7 +79,7 @@ public class ListFragment extends Fragment {
 
         listRef.keepSynced(true);
 
-        final RecyclerView recycleView = (RecyclerView) view.findViewById(R.id.listQuestionAnswer);
+        final RecyclerView recycleView = view.findViewById(R.id.listQuestionAnswer);
         recycleView.setHasFixedSize(true);
         recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycleView.setItemAnimator(new DefaultItemAnimator());
