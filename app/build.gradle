@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 34
     defaultConfig {
         applicationId "red.point.dailydhamma"
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 13
         versionName "1.5.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -21,6 +20,11 @@ android {
     dataBinding {
         enabled = true
     }
+    namespace 'red.point.dailydhamma'
+}
+
+repositories {
+    jcenter()
 }
 
 dependencies {
@@ -38,9 +42,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-database:19.1.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    implementation 'com.firebaseui:firebase-ui-database:3.3.0'
-    implementation 'org.sufficientlysecure:html-textview:3.2'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.0'
+
+//    implementation("org.sufficientlysecure:html-textview:4.0")
+
+//    implementation("com.github.sakacyber:html-textview:1.0.15")
+
+    implementation project(':HtmlTextView')
     testImplementation 'junit:junit:4.12'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
