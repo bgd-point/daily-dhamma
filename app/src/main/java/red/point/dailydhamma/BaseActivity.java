@@ -3,10 +3,12 @@ package red.point.dailydhamma;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 
+import red.point.dailydhamma.R;
 import red.point.dailydhamma.Utils.MPreferenceManager;
 
 

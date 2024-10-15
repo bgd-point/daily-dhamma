@@ -2,32 +2,35 @@ package red.point.dailydhamma.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.core.view.MenuItemCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
+import red.point.dailydhamma.R;
 import red.point.dailydhamma.Utils.MPreferenceManager;
 import red.point.dailydhamma.adapter.QuestionAnswerAdapter;
-import red.point.dailydhamma.ui.DividerItemDecoration;
-import red.point.dailydhamma.model.QuestionAnswer;
 import red.point.dailydhamma.adapter.holder.QuestionAnswerHolder;
-import red.point.dailydhamma.R;
+import red.point.dailydhamma.model.QuestionAnswer;
+import red.point.dailydhamma.ui.DividerItemDecoration;
 
 public class ListFragment extends Fragment {
 

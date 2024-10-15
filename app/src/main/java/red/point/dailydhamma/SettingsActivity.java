@@ -1,23 +1,31 @@
 package red.point.dailydhamma;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.SwitchPreference;
-import androidx.appcompat.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
+import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.util.List;
+import java.util.prefs.Preferences;
+
+import red.point.dailydhamma.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -33,7 +41,7 @@ import java.util.List;
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    public static String token = FirebaseInstanceId.getInstance().getToken();
+    public static String token ="";
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -216,13 +224,32 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
 
+
             SwitchPreference notificationEnable = (SwitchPreference) findPreference("notification_enable");
+
+            SharedPreferences spF = notificationEnable.getSharedPreferences();
+
+            String LastSwitch = spF.getString("NOTIFICATION_ENABLE","false");
+
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                if (getActivity().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED){
+                    requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+                    notificationEnable.setChecked(false);
+                }else {
+                    notificationEnable.setChecked(LastSwitch.equals("true"));
+                }
+            }else {
+                notificationEnable.setChecked(LastSwitch.equals("true"));
+            }
+
             if (notificationEnable != null){
                 notificationEnable.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
                     @Override
                     public boolean onPreferenceChange(Preference preference,
                                                       Object newValue) {
 
+                        Log.d("onPreferenceChange", "CheckValue: " + newValue.toString());
                         // Update shared preferences for updated font size
                         SharedPreferences settings = preference.getSharedPreferences();
                         SharedPreferences.Editor editor = settings.edit();

@@ -1,6 +1,7 @@
 package red.point.dailydhamma.adapter;
 
 import android.widget.Filter;
+
 import java.util.ArrayList;
 
 import red.point.dailydhamma.model.QuestionAnswer;

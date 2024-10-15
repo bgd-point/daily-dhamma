@@ -3,24 +3,29 @@ package red.point.dailydhamma;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import red.point.dailydhamma.R;
 import red.point.dailydhamma.fragment.AboutFragment;
 import red.point.dailydhamma.fragment.DailyFragment;
 import red.point.dailydhamma.fragment.ListFragment;
@@ -43,6 +48,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+
+
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,7 +76,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                switch (id){
+                if (id == R.id.action_daily){
+                    fragment = new DailyFragment();
+                } else if (id == R.id.action_list) {
+                    fragment = new ListFragment();
+                } else if (id == R.id.action_random) {
+                    fragment = new RandomFragment();
+                }
+
+                /*switch (id){
                     case R.id.action_daily:
                         fragment = new DailyFragment();
                         break;
@@ -77,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     case R.id.action_random:
                         fragment = new RandomFragment();
                         break;
-                }
+                }*/
 
                 fragmentManager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 transaction = fragmentManager.beginTransaction();
@@ -92,9 +109,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         questionAnswerRef.keepSynced(true);
 
         // Save device token
-        String token = FirebaseInstanceId.getInstance().getToken();
-        final DatabaseReference devicesRef = database.getReference("devices/token/" + token);
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
 
+                    // Get the token
+                    SettingsActivity.token = task.getResult();
+                    Log.d(TAG, "FCM Token: " + SettingsActivity.token);
+
+                    // Use the token as needed (e.g., send it to your server)
+                });
+
+//        String token = FirebaseInstanceId.getInstance().getToken();
+        final DatabaseReference devicesRef = database.getReference("devices/token/" + SettingsActivity.token);
+        Log.d(TAG, "FCM Token 2: " + SettingsActivity.token);
         devicesRef.addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -137,7 +168,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id){
+        if (id == R.id.nav_about){
+            fragment = new AboutFragment();
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            finish();
+            startActivity(intent);
+            return true;
+        }
+
+        /*switch (id){
             case R.id.nav_about:
                 fragment = new AboutFragment();
                 break;
@@ -147,7 +187,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 finish();
                 startActivity(intent);
                 return true;
-        }
+        }*/
 
         DrawerLayout drawer = findViewById(R.id.activity_main);
         drawer.closeDrawer(GravityCompat.START);

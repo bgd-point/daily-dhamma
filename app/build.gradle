@@ -1,46 +1,57 @@
-apply plugin: 'com.android.application'
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
+}
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    namespace 'red.point.dailydhamma'
+    compileSdk 34
+
     defaultConfig {
         applicationId "red.point.dailydhamma"
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 13
-        versionName "1.5.4"
+        minSdk 21
+        targetSdk 34
+        versionCode 15
+        versionName "1.5.7"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
         }
     }
     dataBinding {
         enabled = true
     }
+    viewBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-database:19.1.0'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    implementation 'com.firebaseui:firebase-ui-database:3.3.0'
-    implementation 'org.sufficientlysecure:html-textview:3.2'
-    testImplementation 'junit:junit:4.12'
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.firebase.storage
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+
+    implementation libs.material.v100
+    implementation libs.constraintlayout
+    implementation libs.vectordrawable
+    implementation libs.firebase.core
+    implementation libs.firebase.database
+    implementation libs.firebase.messaging
+    implementation libs.firebase.ui.database
+ 
+    implementation project(':HtmlTextView')
 }
-
-apply plugin: 'com.google.gms.google-services'
