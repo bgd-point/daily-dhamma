@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "288106718365",
+    "firebase_url": "https://daily-dhamma.firebaseio.com",
+    "project_id": "daily-dhamma",
+    "storage_bucket": "daily-dhamma.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288106718365:android:52b5cb74f2c7ac50",
+        "android_client_info": {
+          "package_name": "red.point.dailydhamma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "288106718365-6dl3r6m8gjej877lasbev8angm42tkcf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "red.point.dailydhamma",
+            "certificate_hash": "3e49fa8bcbcca80f6de544af64dc059f446dd01b"
+          }
+        },
+        {
+          "client_id": "288106718365-k8ukf6fkfgo8gu09hai89ra42q59dn5a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHiSEiEkBYjX1ewZswIBFE4VntMDamrko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288106718365-k8ukf6fkfgo8gu09hai89ra42q59dn5a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "288106718365-lfi5defk2jud678g67v96bvf5afffnjc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "red.point.dailydhamma"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
