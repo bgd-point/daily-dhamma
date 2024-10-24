@@ -31,9 +31,3 @@ Download published app from this repository on Google Play
 <a href='https://play.google.com/store/apps/details?id=red.point.dailydhamma&hl=en&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
 <img width="125px" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/>
 </a>
-
-## Donate
-Your donation help me to maintain code and server :)
-Thank you.
-
-[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=martiendt%40gmail%2ecom&lc=ID&item_name=Daily%20Dhamma&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
