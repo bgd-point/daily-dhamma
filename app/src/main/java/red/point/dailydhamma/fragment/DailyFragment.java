@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;

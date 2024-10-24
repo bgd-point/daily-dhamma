@@ -1,9 +1,11 @@
 package red.point.dailydhamma;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +18,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ import java.util.List;
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    public static String token = FirebaseInstanceId.getInstance().getToken();
+    public static String token ="";
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -216,7 +217,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
 
+
             SwitchPreference notificationEnable = (SwitchPreference) findPreference("notification_enable");
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                if (getActivity().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED){
+                    requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+                    notificationEnable.setChecked(false);
+                }else {
+                    notificationEnable.setChecked(true);
+                }
+            }else {
+                notificationEnable.setChecked(true);
+            }
+
             if (notificationEnable != null){
                 notificationEnable.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
                     @Override

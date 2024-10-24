@@ -13,6 +13,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdReceiver;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import red.point.dailydhamma.fragment.AboutFragment;
 import red.point.dailydhamma.fragment.DailyFragment;
 import red.point.dailydhamma.fragment.ListFragment;
@@ -43,6 +47,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+
+
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,9 +100,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         questionAnswerRef.keepSynced(true);
 
         // Save device token
-        String token = FirebaseInstanceId.getInstance().getToken();
-        final DatabaseReference devicesRef = database.getReference("devices/token/" + token);
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
 
+                    // Get the token
+                    SettingsActivity.token = task.getResult();
+                    Log.d(TAG, "FCM Token: " + SettingsActivity.token);
+
+                    // Use the token as needed (e.g., send it to your server)
+                });
+
+//        String token = FirebaseInstanceId.getInstance().getToken();
+        final DatabaseReference devicesRef = database.getReference("devices/token/" + SettingsActivity.token);
+        Log.d(TAG, "FCM Token 2: " + SettingsActivity.token);
         devicesRef.addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
