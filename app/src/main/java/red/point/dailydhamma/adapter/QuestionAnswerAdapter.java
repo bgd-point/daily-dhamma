@@ -2,25 +2,28 @@ package red.point.dailydhamma.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 import red.point.dailydhamma.R;
-import red.point.dailydhamma.fragment.SingleFragment;
 import red.point.dailydhamma.adapter.holder.QuestionAnswerHolder;
+import red.point.dailydhamma.fragment.SingleFragment;
 import red.point.dailydhamma.model.QuestionAnswer;
 
 public class QuestionAnswerAdapter extends RecyclerView.Adapter<QuestionAnswerHolder> implements Filterable {
 
     Context c;
-    ArrayList<QuestionAnswer> questionAnswerList, filterList;
+    public ArrayList<QuestionAnswer> questionAnswerList;
+    ArrayList<QuestionAnswer> filterList;
     CustomFilter filter;
 
     public QuestionAnswerAdapter(Context contex,ArrayList<QuestionAnswer> questionAnswerList)

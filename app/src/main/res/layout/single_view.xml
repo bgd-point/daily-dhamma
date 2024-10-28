@@ -22,9 +22,7 @@
             android:text="@string/title"
             android:id="@+id/title"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/imgIcon"
             android:layout_toEndOf="@+id/imgIcon"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" />
     </RelativeLayout>
 </layout>
