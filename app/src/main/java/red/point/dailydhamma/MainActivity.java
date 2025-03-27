@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("debug-errorM","this :: "+databaseError.getMessage()+"||"+databaseError.toException());
             }
         });
 
