@@ -30,6 +30,7 @@ import red.point.dailydhamma.fragment.AboutFragment;
 import red.point.dailydhamma.fragment.DailyFragment;
 import red.point.dailydhamma.fragment.ListFragment;
 import red.point.dailydhamma.fragment.RandomFragment;
+import red.point.dailydhamma.fragment.SingleFragment;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -48,10 +49,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
-
-
-
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,7 +73,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.action_daily){
+                if (id == R.id.action_daily) {
                     fragment = new DailyFragment();
                 } else if (id == R.id.action_list) {
                     fragment = new ListFragment();
@@ -96,12 +93,31 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         break;
                 }*/
 
-                fragmentManager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
                 return true;
             }
         });
+
+
+        String id = getIntent().getStringExtra("id");
+
+        if (id != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("key", id);
+
+            Fragment singleFragment = new SingleFragment();
+            singleFragment.setArguments(bundle);
+
+            transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.main_container, singleFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            return;
+        }
+
 
         DatabaseReference questionAnswerRef = database.getReference("question-answer");
 
@@ -126,19 +142,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //        String token = FirebaseInstanceId.getInstance().getToken();
         final DatabaseReference devicesRef = database.getReference("devices/token/" + SettingsActivity.token);
         Log.d(TAG, "FCM Token 2: " + SettingsActivity.token);
-        devicesRef.addListenerForSingleValueEvent(new ValueEventListener(){
+        devicesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     if (!dataSnapshot.hasChild("language")) {
-                        devicesRef.child("language").setValue(Lang_Indonesian? "id": "en");
+                        devicesRef.child("language").setValue(Lang_Indonesian ? "id" : "en");
                     }
-                }
-                else {
+                } else {
                     devicesRef.child("font_size").setValue("Small");
                     devicesRef.child("notification_enable").setValue(true);
                     devicesRef.child("notification_time").setValue("06:00");
-                    devicesRef.child("language").setValue(Lang_Indonesian? "id": "en");
+                    devicesRef.child("language").setValue(Lang_Indonesian ? "id" : "en");
                 }
             }
 
@@ -168,7 +183,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_about){
+        if (id == R.id.nav_about) {
             fragment = new AboutFragment();
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);

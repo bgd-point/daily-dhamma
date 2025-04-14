@@ -1,4 +1,5 @@
 plugins {
+    id 'kotlin-android'
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
 }
@@ -34,10 +35,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
-
+    implementation libs.kotlin.stdlib
     implementation libs.appcompat
     implementation libs.material
     implementation libs.firebase.storage
@@ -52,6 +57,7 @@ dependencies {
     implementation libs.firebase.database
     implementation libs.firebase.messaging
     implementation libs.firebase.ui.database
+    implementation libs.work.runtime.ktx
  
     implementation project(':HtmlTextView')
 }

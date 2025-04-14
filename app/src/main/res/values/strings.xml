@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Daily Dhamma</string>
+    <string name="app_notification_channel_id">Daily Dhamma channel id</string>
     <string name="action_search">Search</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -54,6 +55,10 @@
     <string name="share">Share</string>
     <string name="title">Title</string>
     <string name="daily_dhamma">Daily Dhamma</string>
+    <string name="app_notification_description">This notification used to show random notification about the daily dhamma</string>
+    <string name="app_notification_title">Your remainder from Daily Dhamma</string>
+    <string name="enable_exact_alarm_permission">Enable Exact Alarm Permission</string>
+    <string name="exact_alarm_permission_description">This permission is required to trigger notifications at specific times, even if the app is not running.</string>
     <string-array name="pref_notification_time_list_titles">
         <item>00:00</item>
         <item>01:00</item>
