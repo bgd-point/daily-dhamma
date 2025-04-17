@@ -25,7 +25,7 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 import java.util.Random;
 
 import red.point.dailydhamma.R;
-import red.point.dailydhamma.Utils.MPreferenceManager;
+import red.point.dailydhamma.utils.MPreferenceManager;
 
 public class RandomFragment extends Fragment {
 

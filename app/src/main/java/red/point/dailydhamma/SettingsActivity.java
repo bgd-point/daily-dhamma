@@ -2,11 +2,14 @@ package red.point.dailydhamma;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -15,17 +18,20 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
-import java.util.prefs.Preferences;
 
-import red.point.dailydhamma.R;
+import red.point.dailydhamma.utils.AlarmManagerHandler;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -41,7 +47,7 @@ import red.point.dailydhamma.R;
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    public static String token ="";
+    public static String token = "";
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -68,6 +74,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 editor.commit();
 
                 database.getReference("devices/token/" + token + "/notification_time").setValue(stringValue);
+
+                String LastSwitch = settings.getString("NOTIFICATION_ENABLE", "false");
+
+                if (LastSwitch.equals("true")) {
+                    AlarmManagerHandler.startAlarm(preference.getContext(), stringValue);
+                }
             }
 
             // Update shared preferences for updated language
@@ -76,7 +88,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 editor.commit();
 
                 database.getReference("devices/token/" + token + "/language")
-                        .setValue(stringValue.equals("Indonesian")? "id": "en");
+                        .setValue(stringValue.equals("Indonesian") ? "id" : "en");
             }
 
             if (preference instanceof ListPreference) {
@@ -92,7 +104,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                 ? listPreference.getEntries()[index]
                                 : null);
 
-            }  else {
+            } else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
                 preference.setSummary(stringValue);
@@ -224,32 +236,59 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
 
-
+            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             SwitchPreference notificationEnable = (SwitchPreference) findPreference("notification_enable");
 
             SharedPreferences spF = notificationEnable.getSharedPreferences();
 
-            String LastSwitch = spF.getString("NOTIFICATION_ENABLE","false");
+            String LastSwitch = spF.getString("NOTIFICATION_ENABLE", "false");
 
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                if (getActivity().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // notification permission and exact alarm check
+
+
+                if (getActivity().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
                     requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
                     notificationEnable.setChecked(false);
-                }else {
-                    notificationEnable.setChecked(LastSwitch.equals("true"));
+                } else {
+
+
+                    if (alarmManager.canScheduleExactAlarms()) {
+                        notificationEnable.setChecked(LastSwitch.equals("true"));
+                    } else {
+                        showRequestExactAlarmDialog(getContext());
+                    }
+
                 }
-            }else {
+            } else {
                 notificationEnable.setChecked(LastSwitch.equals("true"));
             }
 
-            if (notificationEnable != null){
-                notificationEnable.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+
+            if (notificationEnable != null) {
+                notificationEnable.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(Preference preference,
                                                       Object newValue) {
 
                         Log.d("onPreferenceChange", "CheckValue: " + newValue.toString());
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && newValue.toString().equals("true")) {
+                            if (getActivity().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
+                                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+                                notificationEnable.setChecked(false);
+                                showMessage("Please allow permission first");
+                                return false;
+
+                            } else {
+                                if (!alarmManager.canScheduleExactAlarms()) {
+                                    showRequestExactAlarmDialog(getContext());
+                                    return false;
+                                }
+                            }
+                        }
+
                         // Update shared preferences for updated font size
                         SharedPreferences settings = preference.getSharedPreferences();
                         SharedPreferences.Editor editor = settings.edit();
@@ -258,9 +297,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
                         if (newValue.toString().equals("false")) {
                             database.getReference("devices/token/" + token + "/notification_time").setValue("");
+                            AlarmManagerHandler.cancelAlarm(getActivity());
                         } else {
+
                             String notification_time_list = settings.getString("notification_time_list", "06:00");
                             database.getReference("devices/token/" + token + "/notification_time").setValue(notification_time_list);
+                            AlarmManagerHandler.startAlarm(getActivity(), notification_time_list);
                         }
 
                         return true;
@@ -284,6 +326,42 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
             return super.onOptionsItemSelected(item);
         }
+
+        @RequiresApi(api = Build.VERSION_CODES.S)
+        private void showRequestExactAlarmDialog(Context context) {
+            new AlertDialog.Builder(context)
+                    .setTitle(R.string.enable_exact_alarm_permission)
+                    .setMessage(context.getString(R.string.exact_alarm_permission_description))
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                        intent.setData(Uri.parse("package:" + context.getPackageName()));
+                        context.startActivity(intent);
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                    .show();
+        }
+
+        @Override
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            Log.i("Notification", "onRequestPermissionsResult: ");
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                    showRequestExactAlarmDialog(getContext());
+                Log.i("Notification", "Permission granted");
+            } else {
+                Log.i("Notification", "Permission denied");
+                showMessage("Permission denied");
+            }
+        }
+
+        private void showMessage(String message) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     /**

@@ -1,4 +1,4 @@
-package red.point.dailydhamma.Utils;
+package red.point.dailydhamma.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -45,6 +45,19 @@ public class MPreferenceManager {
     public static int readIntInformation(Context context, String key){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getInt(key, 0);
+    }
+
+    public static String readStringInformation(Context context, String key, boolean useDefaultSharePreferences) {
+
+        SharedPreferences sp;
+
+        if (useDefaultSharePreferences) {
+            sp = PreferenceManager.getDefaultSharedPreferences(context);
+        } else {
+            sp = context.getSharedPreferences("red.point.DailyDhamma", Context.MODE_PRIVATE);
+        }
+
+        return sp.getString(key, "");
     }
 
 }

@@ -8,8 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 
-import red.point.dailydhamma.R;
-import red.point.dailydhamma.Utils.MPreferenceManager;
+import red.point.dailydhamma.utils.MPreferenceManager;
 
 
 public class BaseActivity extends AppCompatActivity {

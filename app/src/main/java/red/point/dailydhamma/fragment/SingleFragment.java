@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import red.point.dailydhamma.R;
-import red.point.dailydhamma.Utils.MPreferenceManager;
+import red.point.dailydhamma.utils.MPreferenceManager;
 import red.point.dailydhamma.model.QuestionAnswer;
 
 public class SingleFragment extends Fragment {
