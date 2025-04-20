@@ -56,7 +56,7 @@
     <string name="title">Title</string>
     <string name="daily_dhamma">Daily Dhamma</string>
     <string name="app_notification_description">This notification used to show random notification about the daily dhamma</string>
-    <string name="app_notification_title">Your remainder from Daily Dhamma</string>
+    <string name="app_notification_title">Your reminder from Daily Dhamma</string>
     <string name="enable_exact_alarm_permission">Enable Exact Alarm Permission</string>
     <string name="exact_alarm_permission_description">This permission is required to trigger notifications at specific times, even if the app is not running.</string>
     <string-array name="pref_notification_time_list_titles">
