@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'red.point.dailydhamma'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "red.point.dailydhamma"
         minSdk 21
-        targetSdk 35
+        targetSdk 36
         versionCode 15
         versionName "1.7.0"
 
